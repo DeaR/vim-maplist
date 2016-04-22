@@ -203,7 +203,7 @@ function! maplist#echo(mode)
     echon printf('%-' . g:maplist#mode_length . 's', line.mode)
 
     call s:echon(line.lhs)
-    echon printf('%' . max([0, g:maplist#lhs_length - len(line.lhs)]) . 's', ' ')
+    echon printf('%' . max([0, g:maplist#lhs_length - strwidth(line.lhs)]) . 's', ' ')
 
     echohl SpecialKey
     echon printf('%-' . g:maplist#remap_length . 's', line.script ? '&' : line.noremap ? '*' : '')
