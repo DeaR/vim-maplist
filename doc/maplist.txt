@@ -1,0 +1,161 @@
+*maplist.txt*							*maplist*
+
+Version: 1.0.0
+Author : DeaR <nayuri@kuonn.mydns.jp>
+License: MIT License  {{{
+    Copyright (c) 2016 DeaR <nayuri@kuonn.mydns.jp>
+
+    Permission is hereby granted, free of charge, to any person obtaining a
+    copy of this software and associated documentation files (the "Software"),
+    to deal in the Software without restriction, including without limitation
+    the rights to use, copy, modify, merge, publish, distribute, sublicense,
+    and/or sell copies of the Software, and to permit persons to whom the
+    Software is furnished to do so, subject to the following conditions: The
+    above copyright notice and this permission notice shall be included in all
+    copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+    THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+    FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+    DEALINGS IN THE SOFTWARE.
+}}}
+
+==============================================================================
+CONTENTS						*maplist-contents*
+
+INTRODUCTION						|maplist-introduction|
+REQUIREMENTS						|maplist-requirements|
+INTERFACE						|maplist-interface|
+  VARIABLES						|maplist-variables|
+  COMMANDS						|maplist-commands|
+  FUNCTIONS						|maplist-functions|
+CHANGELOG						|maplist-changelog|
+
+
+==============================================================================
+INTRODUCTION						*maplist-introduction*
+
+List the key mappings.
+
+Comparison with |:map_l|.
+- Sorted.
+- Summarized the same {rhs}.
+- The column length customizable.
+
+
+==============================================================================
+REQUIREMENTS						*maplist-requirements*
+
+- Vim 7.4 or later
+
+
+==============================================================================
+INTERFACE						*maplist-interface*
+------------------------------------------------------------------------------
+VARIABLES						*maplist-variables*
+
+							*g:maplist#mode_length*
+g:maplist#mode_length
+	The length of columns of MODE at listing mappings. >
+	n  <C-W>*      * <C-W><C-S>*
+	^^^
+<	The default value is 3.
+	Also see |map-listing|.
+
+
+							*g:maplist#lhs_length*
+g:maplist#lhs_length
+	The length of columns of {lhs} at listing mappings. >
+	n  <C-W>*      * <C-W><C-S>*
+	   ^^^^^^^^^^^
+<	The default value is 11.
+	Also see |map-listing|.
+
+
+							*g:maplist#remap_length*
+g:maplist#remap_length
+	The length of columns of remappable at listing mappings. >
+	n  <C-W>*      * <C-W><C-S>*
+	               ^
+<	The default value is 1.
+	Also see |map-listing|.
+
+
+							*g:maplist#local_length*
+g:maplist#local_length
+	The length of columns of buffer-local at listing mappings. >
+	n  <C-W>*      * <C-W><C-S>*
+	                ^
+<	The default value is 1.
+	Also see |map-listing|.
+
+
+------------------------------------------------------------------------------
+COMMANDS						*maplist-commands*
+
+:MapList			|mapmode-nvo|			*:MapList*
+:NMapList			|mapmode-n|			*:NMapList*
+:OMapList			|mapmode-v|			*:OMapList*
+:VMapList			|mapmode-x|			*:VMapList*
+:XMapList			|mapmode-s|			*:XMapList*
+:SMapList			|mapmode-o|			*:SMapList*
+:MapList!			|mapmode-ic|			*:MapList!*
+:IMapList			|mapmode-i|			*:IMapList*
+:CMapList			|mapmode-c|			*:CMapList*
+:LMapList			|mapmode-l|			*:LMapList*
+	List the key mappings for the key sequences starting with {lhs} in the
+	modes where the map command applies.
+
+
+------------------------------------------------------------------------------
+FUNCTIONS						*maplist-functions*
+
+								*maplist#get*
+maplist#get({mode})
+	Return a dictionary containing the information of the mapping with
+	the following items:
+		"keycord"  The {lhs} of the mapping as translated keycord.
+		"lhs"      The {lhs} of the mapping.
+		"rhs"      The {rhs} of the mapping as translated like in the
+			   output of the ":map" command listing.
+		"noremap"  1 if the {rhs} of the mapping is not remappable.
+		"script"   1 if the {rhs} of the mapping only script-local
+			   mappings are remappable (|:map-script|).
+		"buffer"   1 for a buffer local mapping (|:map-local|).
+		"mode"     Modes for which the mapping is defined. In
+			   addition to the modes mentioned above, these
+			   characters will be used:
+			   " "     Normal, Visual and Operator-pending
+			   "!"     Insert and Commandline mode (|mapmode-ic|)
+
+	{mode} can be one of these strings:
+		""	|mapmode-nvo|
+		"n"	|mapmode-n|
+		"o"	|mapmode-o|
+		"v"	|mapmode-v|
+		"x"	|mapmode-x|
+		"s"	|mapmode-s|
+		"!"	|mapmode-ic|
+		"i"	|mapmode-i|
+		"c"	|mapmode-c|
+		"l"	|mapmode-l|
+
+
+								*maplist#echo*
+maplist#echo({mode})
+	List the key mappings for the key sequences starting with {lhs} in the
+	modes where the map command applies.
+	Also see |:MapList|.
+
+
+==============================================================================
+CHANGELOG						*maplist-changelog*
+
+1.0.0	First version.
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:noet:fen:
